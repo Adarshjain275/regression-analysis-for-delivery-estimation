@@ -1,146 +1,262 @@
 # Delivery Time Estimation using Comparative Regression Analysis
 
-A machine learning project that estimates food delivery time using operational and environmental factors. The project compares **Linear Regression** and **Decision Tree Regression** models and performs extensive evaluation to identify the most reliable predictor.
+Machine Learning pipeline for estimating food delivery duration using operational and environmental features.
 
 ---
 
-## Overview
+## Project Highlights
 
-Accurate delivery time estimation is essential for improving customer experience and operational efficiency in modern food delivery systems.
+* The dataset was repeatedly shuffled and split into training and testing sets to ensure stable and reliable performance rather than relying on a single split.
+* Multiple regression algorithms were initially explored, and after extensive experimentation, **Linear Regression** and **Decision Tree Regression** emerged as the two strongest candidates for detailed evaluation.
+* The final system was built around these models and selected the best-performing approach based on multiple evaluation metrics and cross-validation.
 
-This project predicts delivery duration using features such as:
+---
+
+## Problem Statement
+
+Accurate delivery time estimation is essential for improving customer experience and optimizing delivery operations.
+
+This project predicts food delivery duration using factors such as:
 
 * Distance travelled
 * Weather conditions
 * Traffic level
 * Time of day
 * Vehicle type
-* Food preparation time
+* Preparation time
 * Courier experience
 
-Instead of focusing solely on prediction, the project emphasizes **model comparison, interpretability, and responsible feature engineering**.
+The objective was not only to maximize prediction accuracy but also to understand **which operational factors contribute most to delivery delays**.
 
 ---
 
-## Key Features
+# Workflow Overview
 
-* Data preprocessing and cleaning
-* Exploratory Data Analysis (EDA)
-* Feature engineering and identifier removal
-* Linear Regression and Decision Tree comparison
-* Cross-validation for stability analysis
-* Explainability and feature influence analysis
-* Single-entry prediction pipeline
-
----
-
-
-## Workflow
-
-Dataset → Preprocessing → EDA → Model Training → Evaluation → Cross Validation(model comparison) → Explainability → Prediction
-
----
-
-## Dataset Features
-
-| Feature                |
-| ---------------------- |
-| Distance_km            |
-| Weather                |
-| Traffic_Level          |
-| Time_of_Day            |
-| Vehicle_Type           |
-| Preparation_Time_min   |
-| Courier_Experience_yrs |
-
-**Target Variable:** `Delivery_Time_min`
+```text
+Raw Dataset
+      ↓
+Exploratory Data Analysis
+      ↓
+Data Cleaning & Preprocessing
+      ↓
+Feature Engineering
+      ↓
+Model Experimentation
+      ↓
+Model Comparison
+      ↓
+Cross Validation
+      ↓
+Explainability Analysis
+      ↓
+Final Prediction Pipeline
+```
 
 ---
 
-## Data Preprocessing
+# Dataset Overview
 
-The pipeline includes:
+The dataset contains delivery-related operational variables and a target variable:
 
-* Missing value handling
-* Median and mode imputation
-* One-hot encoding
-* Removal of identifier columns (`Order_ID`)
-* Feature selection
-* Train-test splitting
+### Target Variable
+
+* Delivery_Time_min
+
+### Input Features
+
+* Distance_km
+* Weather
+* Traffic_Level
+* Time_of_Day
+* Vehicle_Type
+* Preparation_Time_min
+* Courier_Experience_yrs
 
 ---
 
-## Models Evaluated
+## Exploratory Data Analysis
+
+EDA was performed to understand:
+
+* feature distributions,
+* relationships with delivery time,
+* category frequencies,
+* possible trends and anomalies.
+
+### Delivery Time Distribution
+
+```md
+(Add image here)
+```
+
+```markdown
+![Distribution](images/delivery_distribution.png)
+```
+
+### Relationship Between Features and Delivery Time
+
+```md
+(Add image here)
+```
+
+```markdown
+![Relationships](images/feature_relationships.png)
+```
+
+### Correlation Analysis
+
+```md
+(Add image here)
+```
+
+```markdown
+![Heatmap](images/correlation_heatmap.png)
+```
+
+---
+
+# Data Preprocessing
+
+The preprocessing pipeline included:
+
+* removal of empty rows and columns,
+* handling missing values,
+* median imputation for numerical variables,
+* mode imputation for categorical variables,
+* one-hot encoding,
+* identifier removal (`Order_ID`),
+* train-test splitting.
+
+### Preprocessing Pipeline
+
+```md
+(Add image here)
+```
+
+```markdown
+![Pipeline](images/preprocessing_pipeline.png)
+```
+
+---
+
+# Model Experimentation
+
+Several regression approaches were explored during experimentation.
+
+After multiple trials, the following two models consistently produced the best results:
 
 ### Linear Regression
 
-* Simple and interpretable baseline model.
+Simple, interpretable and computationally efficient.
 
 ### Decision Tree Regressor
 
-* Rule-based nonlinear model used for comparison.
+Capable of capturing nonlinear relationships and feature interactions.
 
 ---
 
-## Performance Comparison
+# Model Training Strategy
+
+Instead of relying on a single train-test split, the dataset was repeatedly randomized and evaluated to reduce split bias and improve reliability.
+
+Additionally, five-fold cross-validation was used to measure model stability.
+
+---
+
+# Performance Comparison
 
 | Model             |   MAE |   RMSE |    MAPE | R² Score |
 | ----------------- | ----: | -----: | ------: | -------: |
 | Linear Regression | 5.899 |  8.826 | 10.407% |    0.826 |
 | Decision Tree     | 8.774 | 12.032 | 17.532% |    0.677 |
 
-**Linear Regression outperformed Decision Tree across all evaluation metrics and was selected as the final model.**
+Linear Regression consistently outperformed Decision Tree across all major evaluation metrics.
 
 ---
 
-## Cross Validation Results
+## Model Comparison Dashboard
+
+```md
+(Add image here)
+```
+
+```markdown
+![Dashboard](images/model_comparison_dashboard.png)
+```
+
+---
+
+# Actual vs Predicted Results
+
+```md
+(Add image here)
+```
+
+```markdown
+![Prediction](images/actual_vs_predicted.png)
+```
+
+---
+
+# Cross Validation Results
 
 | Model             | Mean CV MAE |
 | ----------------- | ----------: |
 | Linear Regression |       6.548 |
 | Decision Tree     |       9.223 |
 
-The results indicate that Linear Regression provides better generalization and stability.
+Cross-validation further confirmed that Linear Regression generalized better and produced more stable predictions.
 
 ---
 
-## Key Insights
+# Explainability Analysis
 
-The strongest drivers affecting delivery time were:
+Beyond prediction accuracy, the project focused on understanding the factors driving delivery delays.
+
+The strongest contributors were:
 
 * Distance travelled
 * Traffic level
 * Weather conditions
 * Preparation time
 
-These insights can support better delivery planning and customer ETA estimation.
+### Feature Influence Plot
 
----
+```md
+(Add image here)
+```
 
-## Comparison Dashboard
-
-<p align="center">
-  <img src="model_comparison_dashboard.png" width="900">
-</p>
-
-<p align="center">
-<b>Comparison dashboard showing evaluation metrics and prediction performance.</b>
-</p>
----
-
-## Feature Influence Analysis
-
+```markdown
 ![Feature Importance](images/feature_importance.png)
+```
 
 ---
 
-## Actual vs Predicted Results
+# Key Findings
 
-![Prediction Results](model_comparison_dashboard.png)
+* Linear Regression outperformed Decision Tree on all evaluation metrics.
+* Identifier columns negatively affected model quality.
+* Delivery distance and traffic conditions were the strongest delay drivers.
+* Simpler interpretable models performed better than more complex alternatives for this dataset.
 
 ---
 
-## Project Structure
+# Technologies Used
+
+Python • Pandas • NumPy • Scikit-Learn • Matplotlib • Google Colab
+
+---
+
+# Future Improvements
+
+* Random Forest and Gradient Boosting models
+* Real-time API integration
+* Web dashboard for live prediction
+* Route optimization features
+
+---
+
+## Repository Structure
 
 ```text
 ├── notebook.ipynb
@@ -151,14 +267,3 @@ These insights can support better delivery planning and customer ETA estimation.
 ├── model.pkl
 └── model_info.json
 ```
-
----
-
-## Future Improvements
-
-* Random Forest and Gradient Boosting models
-* Web application for real-time prediction
-* Route optimization features
-* Integration with live delivery datasets
-
-
